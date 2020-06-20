@@ -33,7 +33,7 @@
             android:label="@string/title_activity_athlete"/>
 
         <activity android:name=".activity.ActivityMenuSearchByName"
-            android:label="Menu Search By Athlete"/>
+            android:label="Menu Search By Name"/>
 
         <activity
             android:name=".activity.activity_menu_by_sport"
