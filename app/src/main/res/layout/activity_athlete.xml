@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.activity_menu_home"
+    android:orientation="vertical"
+    android:layout_gravity="center_horizontal">
+
+    <ImageView
+        android:id="@+id/athlete_profile_photo"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/top_padding"
+        android:layout_marginBottom="@dimen/bottom_padding"
+        android:src="@drawable/athlete_profile_logo"/>
+
+    <TextView
+        android:id="@+id/athlete_fullname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        style="@style/TextAppearance.AppCompat.Large"
+        android:text="@string/athlete_fullname"/>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@color/colorAccent"
+        android:paddingTop="@dimen/top_padding"
+        android:paddingBottom="@dimen/bottom_padding"
+        android:showDividers="middle">
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:divider="@color/colorPrimary"
+            android:paddingLeft="@dimen/left_padding"
+            android:paddingTop="@dimen/top_padding"
+            android:paddingRight="@dimen/right_padding"
+            android:paddingBottom="@dimen/bottom_padding"
+            android:showDividers="middle">
+
+            <ImageView
+                android:id="@+id/athlete_tr_sport_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@android:drawable/btn_star" />
+
+            <TextView
+                android:id="@+id/athlete_tr_sport_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/left_padding"
+            android:paddingTop="@dimen/top_padding"
+            android:paddingRight="@dimen/right_padding"
+            android:paddingBottom="@dimen/bottom_padding">
+
+            <ImageView
+                android:id="@+id/athlete_tr_sport_event_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@android:drawable/btn_star" />
+
+            <TextView
+                android:id="@+id/athlete_tr_sport_event_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/left_padding"
+            android:paddingTop="@dimen/top_padding"
+            android:paddingRight="@dimen/right_padding"
+            android:paddingBottom="@dimen/bottom_padding">
+
+            <ImageView
+                android:id="@+id/athlete_tr_previous_participation_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@android:drawable/btn_star" />
+
+            <TextView
+                android:id="@+id/athlete_tr_previous_participation_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+        </TableRow>
+    </TableLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">COA Athletes</string>
+    <string name="title_activity_menu_by_sport">activity_menu_by_sport</string>
+    <string name="search_by_athlete">Search by athlete</string>
+    <string name="search_by_sport">Search by sport</string>
+    <string name="noc_logo_placed_in_the_menu_home">Noc logo placed in the menu_home</string>
+    <string name="athlete_fullname">Name Surname</string>
+    <string name="title_activity_athlete">athlete</string>
+</resources>

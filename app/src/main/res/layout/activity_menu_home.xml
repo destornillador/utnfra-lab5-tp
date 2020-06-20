@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.ActivityMenuHome"
+    android:orientation="vertical"
+    android:layout_gravity="center_horizontal">
+
+    <ImageView
+        android:id="@+id/iv_menu_home_logo"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:contentDescription="@string/noc_logo_placed_in_the_menu_home"
+        android:src="@drawable/noc_logo_argentina"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/top_padding"
+        android:layout_marginBottom="@dimen/bottom_padding"/>
+
+    <Button
+        android:id="@+id/btn_menu_home_search_by_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/top_padding"
+        android:layout_marginBottom="@dimen/bottom_padding"
+        android:text="@string/search_by_athlete"
+        android:background="@drawable/btn_rounded"
+        android:padding="@dimen/btn_padding"
+        android:textAllCaps="false"/>
+
+    <Button
+        android:id="@+id/btn_menu_home_search_by_sport"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/search_by_sport"
+        android:background="@drawable/btn_rounded"
+        android:padding="@dimen/btn_padding"
+        android:textAllCaps="false"/>
+</LinearLayout>
