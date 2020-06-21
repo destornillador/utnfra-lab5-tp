@@ -29,7 +29,7 @@
         </activity>
 
         <activity
-            android:name=".activity.activity_athlete"
+            android:name=".activity.ActivityAthlete"
             android:label="@string/title_activity_athlete"/>
 
         <activity android:name=".activity.ActivityMenuSearchByName"

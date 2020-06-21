@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.jjoo_argentinian_athletes.R;
 
-public class activity_athlete extends AppCompatActivity {
+public class ActivityAthlete extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -2,15 +2,20 @@ package com.example.jjoo_argentinian_athletes.activity;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.jjoo_argentinian_athletes.R;
 import com.example.jjoo_argentinian_athletes.adapter.AthleteAdapter;
 import com.example.jjoo_argentinian_athletes.model.Athlete;
+import com.example.jjoo_argentinian_athletes.util.IRecycleViewClickItem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,7 +23,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-public class ActivityMenuSearchByName extends AppCompatActivity {
+public class ActivityMenuSearchByName extends AppCompatActivity implements
+        SearchView.OnQueryTextListener, IRecycleViewClickItem {
     private RecyclerView rvAthleteList;
     private AthleteAdapter athleteAdapter;
     private List<Athlete> athleteList;
@@ -28,6 +34,7 @@ public class ActivityMenuSearchByName extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_search_by_name);
 
+        // Toolbar
         ActionBar toolbar = getSupportActionBar();
         toolbar.setDisplayHomeAsUpEnabled(true);
 
@@ -47,11 +54,25 @@ public class ActivityMenuSearchByName extends AppCompatActivity {
         athleteList.add(new Athlete("Maria Rodriguez", "https://google.com",
                 testSN, "swimming", null, null));
 
-        athleteAdapter = new AthleteAdapter(this, athleteList);
+        athleteAdapter = new AthleteAdapter(this, athleteList, this);
         rvAthleteList.setAdapter(athleteAdapter);
 
 
 
+    }
+
+    // Toolbar
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_menu_search_by_name, menu);
+
+        // Search View
+        MenuItem searchItem = menu.findItem(R.id.menu_search_by_name_item_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setOnQueryTextListener(this);
+
+        return true;
     }
 
     @Override
@@ -63,5 +84,23 @@ public class ActivityMenuSearchByName extends AppCompatActivity {
         }
 
         return false;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String s) {
+        // TODO: Update the RecyclerView every time that a letter is entered
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String s) {
+        // TODO: Update the RecyclerView every time that a letter is entered
+        return false;
+    }
+
+    // RecyclerView
+    @Override
+    public void onItemClick(int position) {
+
     }
 }
