@@ -14,7 +14,8 @@ public class Athlete {
     List<String> sportEvents;
     List<String> olympicGamesAttend;
 
-    public Athlete(String fullName, String profilePhotoURL, Map<String, String> socialNetworks, String sport, List<String> sportEvents, List<String> olympicGamesAttend) {
+    public Athlete(String fullName, String profilePhotoURL, Map<String, String> socialNetworks,
+                   String sport, List<String> sportEvents, List<String> olympicGamesAttend) {
         this.fullName = fullName;
         this.profilePhotoURL = profilePhotoURL;
         this.socialNetworks = socialNetworks;

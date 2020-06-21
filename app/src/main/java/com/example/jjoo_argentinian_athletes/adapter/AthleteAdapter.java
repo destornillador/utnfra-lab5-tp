@@ -70,8 +70,8 @@ public class AthleteAdapter extends RecyclerView.Adapter<AthleteAdapter.AthleteV
 
         AthleteViewHolder(View itemView) {
             super(itemView);
-            this.itemAthleteFullname =  itemView.findViewById(R.id.athlete_fullname);
-            this.itemAthleteProfilePhoto = itemView.findViewById(R.id.athlete_profile_photo);
+            this.itemAthleteFullname =  itemView.findViewById(R.id.item_athlete_preview_fullname);
+            this.itemAthleteProfilePhoto = itemView.findViewById(R.id.item_athlete_preview_profile_photo);
         }
     }
 }
