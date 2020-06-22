@@ -11,26 +11,24 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.jjoo_argentinian_athletes.R;
-import com.example.jjoo_argentinian_athletes.adapter.AthletePreviewAdapter;
-import com.example.jjoo_argentinian_athletes.model.Athlete;
+import com.example.jjoo_argentinian_athletes.adapter.SportCategoryAdapter;
+import com.example.jjoo_argentinian_athletes.model.Sport;
 import com.example.jjoo_argentinian_athletes.util.IRecycleViewClickItem;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class ActivityMenuSearchByName extends AppCompatActivity implements
+public class ActivityMenuSearchBySport extends AppCompatActivity implements
         SearchView.OnQueryTextListener, IRecycleViewClickItem {
 
-    private RecyclerView rvAthleteList;
-    private AthletePreviewAdapter athletePreviewAdapter;
-    private List<Athlete> athleteList;
+    private RecyclerView rvSportList;
+    private SportCategoryAdapter sportCategoryAdapter;
+    private List<Sport> sportList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu_search_by_name);
+        setContentView(R.layout.activity_menu_search_by_sport);
 
         // Toolbar
         ActionBar toolbar = getSupportActionBar();
@@ -39,26 +37,19 @@ public class ActivityMenuSearchByName extends AppCompatActivity implements
         }
 
         // Recycler view generation
-        rvAthleteList = findViewById(R.id.rv_menu_search_by_name);
-        rvAthleteList.setHasFixedSize(true);
-        rvAthleteList.setLayoutManager(new LinearLayoutManager(this));
+        rvSportList = findViewById(R.id.rv_menu_search_by_sport);
+        rvSportList.setHasFixedSize(true);
+        rvSportList.setLayoutManager(new LinearLayoutManager(this));
 
         // FIXME: This is only for testing purpose
-        Map<String, String> testSN = new HashMap<String, String>();
-        testSN.put("twitter", "twitter.com/pepe");
-        List<String> testOG = new ArrayList<String>();
-        testOG.add("tokio 2020");
-        List<String> testSE = new ArrayList<String>();
-        testSE.add("100m freestyle");
 
-        athleteList = new ArrayList<>();
-        athleteList.add(new Athlete("Pepe Rodriguez", "https://google.com",
-                testSN, "swimming", testSE, testOG));
-        athleteList.add(new Athlete("Maria Rodriguez", "https://google.com",
-                testSN, "swimming", null, null));
+        sportList = new ArrayList<>();
+        sportList.add(new Sport("Swimming", "https://google.com"));
+        sportList.add(new Sport("Hockey", "https://google.com"));
+        sportList.add(new Sport("Canoe", "https://google.com"));
 
-        athletePreviewAdapter = new AthletePreviewAdapter(this,this, athleteList);
-        rvAthleteList.setAdapter(athletePreviewAdapter);
+        sportCategoryAdapter = new SportCategoryAdapter(this,this, sportList);
+        rvSportList.setAdapter(sportCategoryAdapter);
 
 
 
@@ -68,10 +59,10 @@ public class ActivityMenuSearchByName extends AppCompatActivity implements
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_menu_search_by_name, menu);
+        getMenuInflater().inflate(R.menu.activity_menu_search_by_sport, menu);
 
         // Search View
-        MenuItem searchItem = menu.findItem(R.id.activity_menu_search_by_name_item_search);
+        MenuItem searchItem = menu.findItem(R.id.activity_menu_search_by_sport_item_search);
         SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setOnQueryTextListener(this);
 

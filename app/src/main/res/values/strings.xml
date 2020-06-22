@@ -7,4 +7,6 @@
     <string name="athlete_fullname">Name Surname</string>
     <string name="title_activity_athlete">athlete</string>
     <string name="menu_search_by_name_item_search">Search Athlete</string>
+    <string name="sport_name">Sport Name</string>
+    <string name="menu_search_by_sport_item_search">Menu Search by Sport</string>
 </resources>

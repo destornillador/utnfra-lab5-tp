@@ -3,6 +3,7 @@
     package="com.example.jjoo_argentinian_athletes">
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <uses-feature android:name="android.hardware.type.watch" />
 
@@ -28,17 +29,17 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".activity.ActivityMenuSearchByName"
+            android:label="Menu Search By Name"/>
+
+        <activity android:name=".activity.ActivityMenuSearchBySport"
+            android:label="Menu Search By Sport"/>
+
         <activity
             android:name=".activity.ActivityAthlete"
             android:label="@string/title_activity_athlete"/>
 
-        <activity android:name=".activity.ActivityMenuSearchByName"
-            android:label="Menu Search By Name"/>
 
-        <activity
-            android:name=".activity.activity_menu_by_sport"
-            android:label="@string/title_activity_menu_by_sport"
-            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

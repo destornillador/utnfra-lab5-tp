@@ -27,6 +27,16 @@ public class ActivityMenuHome extends AppCompatActivity {
             }
         });
 
+        // Go to activity_search_by_sport
+        Button btnSearchBySport = (Button) findViewById(R.id.btn_menu_home_search_by_sport);
+        btnSearchBySport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent_activity_search_by_sport = new Intent(ActivityMenuHome.this, ActivityMenuSearchBySport.class);
+                ActivityMenuHome.this.startActivity(intent_activity_search_by_sport);
+            }
+        });
+
         // Get data from the test API
         /*HttpThread h1 = new HttpThread(API_PEOPLE_URL, "GET", new Handler(this), EHttpThreadReason.POPULATE_MODEL);
         h1.start();

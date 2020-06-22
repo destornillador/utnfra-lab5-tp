@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.activity_menu_home"
+    tools:context=".activity.ActivityAthlete"
     android:orientation="vertical"
     android:layout_gravity="center_horizontal">
 
@@ -44,13 +44,13 @@
             android:showDividers="middle">
 
             <ImageView
-                android:id="@+id/athlete_tr_sport_icon"
+                android:id="@+id/tr_athlete_sport_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@android:drawable/btn_star" />
 
             <TextView
-                android:id="@+id/athlete_tr_sport_tv"
+                android:id="@+id/tr_athlete_sport_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TextView" />
@@ -66,13 +66,13 @@
             android:paddingBottom="@dimen/bottom_padding">
 
             <ImageView
-                android:id="@+id/athlete_tr_sport_event_icon"
+                android:id="@+id/tr_athlete_sport_events_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@android:drawable/btn_star" />
 
             <TextView
-                android:id="@+id/athlete_tr_sport_event_tv"
+                android:id="@+id/tr_athlete_sport_events_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TextView" />
@@ -88,13 +88,13 @@
             android:paddingBottom="@dimen/bottom_padding">
 
             <ImageView
-                android:id="@+id/athlete_tr_previous_participation_icon"
+                android:id="@+id/tr_athlete_olympic_games_attent_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@android:drawable/btn_star" />
 
             <TextView
-                android:id="@+id/athlete_tr_previous_participation_tv"
+                android:id="@+id/tr_athlete_olympic_games_attent_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TextView" />
