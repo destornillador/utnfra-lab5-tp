@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.jjoo_argentinian_athletes.R;
+import com.example.jjoo_argentinian_athletes.activity.ActivityMenuSearchByName;
 import com.example.jjoo_argentinian_athletes.model.Sport;
 import com.example.jjoo_argentinian_athletes.util.IRecycleViewClickItem;
 import com.google.gson.Gson;
@@ -106,13 +107,14 @@ public class SportCategoryAdapter extends RecyclerView.Adapter<SportCategoryAdap
         public void onClick(View v) {
             listener.onAthleteClick(position);
 
-            /*
-            TODO: Aca habria que meter el logo:sport como Toolbar
-            Gson gson = new Gson();
-            Intent intentActivityAthlete = new Intent(context, ActivityAthlete.class);
-            intentActivityAthlete.putExtra("ITEM_SPORT", gson.toJson(athlete));
-            context.startActivity(intentActivityAthlete);
-            */
+
+            //TODO: Aca habria que meter el logo:sport como Toolbar
+            //Gson gson = new Gson();
+            Intent intentActivitySearchByName = new Intent(context, ActivityMenuSearchByName.class);
+            // TODO: Meter logica para obtener una lista de Athletes que solo practicen el Sport seleccionado
+            intentActivitySearchByName.putExtra("ITEM_ATHLETE", "hola");
+            context.startActivity(intentActivitySearchByName);
+
         }
     }
 }

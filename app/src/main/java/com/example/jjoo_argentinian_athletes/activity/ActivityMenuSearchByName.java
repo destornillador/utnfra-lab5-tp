@@ -6,7 +6,9 @@ import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -42,6 +44,23 @@ public class ActivityMenuSearchByName extends AppCompatActivity implements
         rvAthleteList = findViewById(R.id.rv_menu_search_by_name);
         rvAthleteList.setHasFixedSize(true);
         rvAthleteList.setLayoutManager(new LinearLayoutManager(this));
+
+        /* TODO: This activity is also used from ActivityMenuSearchBySport.
+                 I have to find out the way to populate it from getExtra (in case of being
+                 invoked from ActivityMenuSearchBySport) too
+                 Perhaps something like "if (extra > 0) then populate from here, else populate from all"
+         */
+        Intent intent_activity_menu_search_by_name = getIntent();
+        Bundle intent_extras = intent_activity_menu_search_by_name.getExtras();
+
+        // Populate with all athletes or from a small set, given from Intent Extra
+        if (intent_extras != null) {
+            // Populate all athletes
+            Log.d("extras","Hay extras");
+        } else {
+            // Populate a small set
+            Log.d("extras", "No hay extras");
+        }
 
         // FIXME: This is only for testing purpose
         Map<String, String> testSN = new HashMap<String, String>();

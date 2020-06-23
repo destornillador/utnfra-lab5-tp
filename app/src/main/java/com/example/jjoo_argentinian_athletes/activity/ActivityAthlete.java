@@ -29,10 +29,10 @@ public class ActivityAthlete extends AppCompatActivity {
 
         // Populate Activity
         Intent intent_activity_athlete = getIntent();
-        Bundle extras_from_activity_athlete_preview = intent_activity_athlete.getExtras();
-        Log.d("test",extras_from_activity_athlete_preview.getString("ITEM_ATHLETE"));
+        Bundle intent_extras = intent_activity_athlete.getExtras();
+        Log.d("test",intent_extras.getString("ITEM_ATHLETE"));
         try {
-            JSONObject bundle_athlete = new JSONObject(extras_from_activity_athlete_preview.getString("ITEM_ATHLETE"));
+            JSONObject bundle_athlete = new JSONObject(intent_extras.getString("ITEM_ATHLETE"));
             // FIXME: Esto debería ir en la Vista (MVC)
             TextView athleteFullName =  findViewById(R.id.athlete_fullname);
             TextView athleteSport = findViewById(R.id.tr_athlete_sport_tv);
