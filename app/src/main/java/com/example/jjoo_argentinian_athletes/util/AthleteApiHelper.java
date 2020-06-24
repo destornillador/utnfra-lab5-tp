@@ -1,14 +1,22 @@
 package com.example.jjoo_argentinian_athletes.util;
 
+import android.content.Context;
+import android.os.Environment;
+import android.util.Log;
+
 import com.example.jjoo_argentinian_athletes.model.Athlete;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class AthleteApiHelper {
 
@@ -17,8 +25,8 @@ public class AthleteApiHelper {
      *
      * @return ArrayList<Athlete>
      */
-    /*
-    public static List<Athlete> generateListPersonFromJson(JSONArray jsonArray) {
+
+    public static List<Athlete> generateListAthleteFromJson(JSONArray jsonArray) {
         List<Athlete> athleteList = new ArrayList<Athlete>();
 
         FIXME: https://www.androidhive.info/2012/01/android-json-parsing-tutorial/
@@ -28,10 +36,10 @@ public class AthleteApiHelper {
                 athleteList.add(new Athlete(
                         obj.getString("fullname"),
                         obj.getString("profilePhotoUrl"),
-                        obj.getJSONArray("socialNetworks"),
+                        null,
                         obj.getString("sport"),
-                        obj.getString("sportEvents"),
-                        obj.getString("olympicGamesAttend")
+                        null,
+                        null
                 ));
             }
         } catch (
@@ -41,7 +49,6 @@ public class AthleteApiHelper {
 
     return athleteList;
     }
-     */
 
     /*
     public static Map<String,String> jsonArrayToMapString(JSONArray jsonArray) {

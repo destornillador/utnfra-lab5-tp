@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class Athlete {
+public class Athlete implements Comparable{
     String fullName;
     String profilePhotoURL;
-    byte[] profilePhotoBinary;
+    String profilePhotoLocalFilePath;
     Map<String, String> socialNetworks;
     String sport;
     List<String> sportEvents;
@@ -22,7 +22,7 @@ public class Athlete {
         this.sport = sport;
         this.sportEvents = sportEvents;
         this.olympicGamesAttend = olympicGamesAttend;
-        this.profilePhotoBinary = null;
+        this.profilePhotoLocalFilePath = null;
     }
 
     public String getFullName() {
@@ -41,12 +41,12 @@ public class Athlete {
         this.profilePhotoURL = profilePhotoURL;
     }
 
-    public byte[] getProfilePhotoBinary() {
-        return profilePhotoBinary;
+    public String getProfilePhotoLocalFilePath() {
+        return profilePhotoLocalFilePath;
     }
 
-    public void setProfilePhotoBinary(byte[] profilePhotoBinary) {
-        this.profilePhotoBinary = profilePhotoBinary;
+    public void setProfilePhotoLocalFilePath(String profilePhotoLocalFilePath) {
+        this.profilePhotoLocalFilePath = profilePhotoLocalFilePath;
     }
 
     public Map<String, String> getSocialNetworks() {
@@ -88,7 +88,6 @@ public class Athlete {
         Athlete athlete = (Athlete) o;
         return Objects.equals(fullName, athlete.fullName) &&
                 Objects.equals(profilePhotoURL, athlete.profilePhotoURL) &&
-                Arrays.equals(profilePhotoBinary, athlete.profilePhotoBinary) &&
                 Objects.equals(socialNetworks, athlete.socialNetworks) &&
                 Objects.equals(sport, athlete.sport) &&
                 Objects.equals(sportEvents, athlete.sportEvents) &&
@@ -97,8 +96,11 @@ public class Athlete {
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(fullName, profilePhotoURL, socialNetworks, sport, sportEvents, olympicGamesAttend);
-        result = 31 * result + Arrays.hashCode(profilePhotoBinary);
-        return result;
+        return Objects.hash(fullName, profilePhotoURL, socialNetworks, sport, sportEvents, olympicGamesAttend);
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return this.getFullName().compareTo(((Athlete) o).getFullName());
     }
 }

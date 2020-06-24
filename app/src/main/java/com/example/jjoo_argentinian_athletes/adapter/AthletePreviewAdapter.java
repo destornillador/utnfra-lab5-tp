@@ -17,9 +17,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.jjoo_argentinian_athletes.R;
 import com.example.jjoo_argentinian_athletes.activity.ActivityAthlete;
 import com.example.jjoo_argentinian_athletes.model.Athlete;
+import com.example.jjoo_argentinian_athletes.util.EHttpThreadReason;
+import com.example.jjoo_argentinian_athletes.util.EHttpManagerValidMethod;
+import com.example.jjoo_argentinian_athletes.util.HttpThread;
 import com.example.jjoo_argentinian_athletes.util.IRecycleViewClickItem;
 import com.google.gson.Gson;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 
@@ -51,14 +55,14 @@ public class AthletePreviewAdapter extends RecyclerView.Adapter<AthletePreviewAd
         holder.setContext(context);
         holder.setAthlete(athlete);
 
-        if (athlete.getProfilePhotoBinary() != null) {
-            holder.itemAthleteProfilePhoto.setImageBitmap(BitmapFactory.decodeByteArray(athlete.getProfilePhotoBinary(),
-                    0, athlete.getProfilePhotoBinary().length));
-        } /*else {
-            HttpThread httpThread = new HttpThread(athlete.getProfilePhotoURL(), "GET", new Handler(this),
-                    EHttpThreadReason.POPULATE_PHOTO, position);
-            httpThread.start();
-        }*/
+        if (athlete.getProfilePhotoLocalFilePath() != null) {
+            holder.itemAthleteProfilePhoto.setImageBitmap(BitmapFactory.decodeFile(athlete.getProfilePhotoLocalFilePath()));
+        } else {
+            HttpThread threadGetProfilePhoto = new HttpThread(athlete.getProfilePhotoURL(), EHttpManagerValidMethod.GET ,
+                    new Handler(this),
+                    EHttpThreadReason.POPULATE_PHOTO, position, true,context);
+            threadGetProfilePhoto.start();
+        }
     }
 
     @Override
@@ -68,8 +72,8 @@ public class AthletePreviewAdapter extends RecyclerView.Adapter<AthletePreviewAd
 
     @Override
     public boolean handleMessage(@NonNull Message msg) {
-        byte[] profilePhoto = (byte[]) msg.obj;
-        athleteList.get(msg.arg1).setProfilePhotoBinary(profilePhoto);
+        String s = new String((byte[]) msg.obj, StandardCharsets.UTF_8);
+        athleteList.get(msg.arg1).setProfilePhotoLocalFilePath(s);
         this.notifyItemChanged(msg.arg1);
 
         return false;
@@ -109,6 +113,7 @@ public class AthletePreviewAdapter extends RecyclerView.Adapter<AthletePreviewAd
 
             Gson gson = new Gson();
             Intent intentActivityAthlete = new Intent(context, ActivityAthlete.class);
+            // FIXME: Creo que el Obj Json hace que el obj sea > 1 mb
             intentActivityAthlete.putExtra("ITEM_ATHLETE", gson.toJson(athlete));
             context.startActivity(intentActivityAthlete);
         }

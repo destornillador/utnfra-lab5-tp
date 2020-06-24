@@ -1,5 +1,6 @@
 package com.example.jjoo_argentinian_athletes.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -8,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,15 +18,21 @@ import android.view.MenuItem;
 import com.example.jjoo_argentinian_athletes.R;
 import com.example.jjoo_argentinian_athletes.adapter.AthletePreviewAdapter;
 import com.example.jjoo_argentinian_athletes.model.Athlete;
+import com.example.jjoo_argentinian_athletes.util.Const;
+import com.example.jjoo_argentinian_athletes.util.EHttpManagerValidMethod;
+import com.example.jjoo_argentinian_athletes.util.EHttpThreadReason;
+import com.example.jjoo_argentinian_athletes.util.HttpThread;
 import com.example.jjoo_argentinian_athletes.util.IRecycleViewClickItem;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 public class ActivityMenuSearchByName extends AppCompatActivity implements
-        SearchView.OnQueryTextListener, IRecycleViewClickItem {
+        SearchView.OnQueryTextListener, IRecycleViewClickItem, Handler.Callback {
 
     private RecyclerView rvAthleteList;
     private AthletePreviewAdapter athletePreviewAdapter;
@@ -55,32 +64,18 @@ public class ActivityMenuSearchByName extends AppCompatActivity implements
 
         // Populate with all athletes or from a small set, given from Intent Extra
         if (intent_extras != null) {
-            // Populate all athletes
-            Log.d("extras","Hay extras");
-        } else {
             // Populate a small set
             Log.d("extras", "No hay extras");
+        } else {
+            // Populate all athletes
+            HttpThread threadGetAllAthletes = new HttpThread(Const.API_ATHLETES_URL, EHttpManagerValidMethod.GET,
+                    new Handler(this), EHttpThreadReason.POPULATE_MODEL);
+            threadGetAllAthletes.start();
         }
 
-        // FIXME: This is only for testing purpose
-        Map<String, String> testSN = new HashMap<String, String>();
-        testSN.put("twitter", "twitter.com/pepe");
-        List<String> testOG = new ArrayList<String>();
-        testOG.add("tokio 2020");
-        List<String> testSE = new ArrayList<String>();
-        testSE.add("100m freestyle");
-
         athleteList = new ArrayList<>();
-        athleteList.add(new Athlete("Pepe Rodriguez", "https://google.com",
-                testSN, "swimming", testSE, testOG));
-        athleteList.add(new Athlete("Maria Rodriguez", "https://google.com",
-                testSN, "swimming", null, null));
-
         athletePreviewAdapter = new AthletePreviewAdapter(this,this, athleteList);
         rvAthleteList.setAdapter(athletePreviewAdapter);
-
-
-
     }
 
     // Toolbar
@@ -121,5 +116,16 @@ public class ActivityMenuSearchByName extends AppCompatActivity implements
 
     @Override
     public void onAthleteClick(int position) {
+    }
+
+    // Populate RecyclerView Thread
+
+    @Override
+    public boolean handleMessage(@NonNull Message msg) {
+        athleteList.addAll((ArrayList<Athlete>) msg.obj);
+        // TODO: Probably the sort stuff  should be in another file
+        Collections.sort(athleteList);
+        athletePreviewAdapter.notifyDataSetChanged();
+        return false;
     }
 }

@@ -16,7 +16,6 @@ public class ActivityMenuHome extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_home);
 
-
         // Go to activity_search_by_athlete
         Button btnSearchByAthlete = (Button) findViewById(R.id.btn_menu_home_search_by_name);
         btnSearchByAthlete.setOnClickListener(new View.OnClickListener() {
@@ -36,11 +35,6 @@ public class ActivityMenuHome extends AppCompatActivity {
                 ActivityMenuHome.this.startActivity(intent_activity_search_by_sport);
             }
         });
-
-        // Get data from the test API
-        /*HttpThread h1 = new HttpThread(API_PEOPLE_URL, "GET", new Handler(this), EHttpThreadReason.POPULATE_MODEL);
-        h1.start();
-         */
 
         /*
         pmList = new ArrayList<>();
