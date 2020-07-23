@@ -4,11 +4,13 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 
-import com.example.jjoo_argentinian_athletes.model.Athlete;
+import com.example.jjoo_argentinian_athletes.model.AthleteModel;
+import com.example.jjoo_argentinian_athletes.model.SportModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HttpThread extends Thread {
@@ -17,16 +19,24 @@ public class HttpThread extends Thread {
     Handler handler;
     EHttpThreadReason reason;
     Integer position;
-    Boolean cacheOnDisk;
-    Context context;
+    Boolean cacheOnDisk = false;
+    Context context = null;
+    String sport;
 
     public HttpThread(String url, EHttpManagerValidMethod httpMethod, Handler handler, EHttpThreadReason reason) {
         this.url = url;
         this.httpMethod = httpMethod;
         this.handler = handler;
         this.reason = reason;
-        this.cacheOnDisk = false;
-        this.context = null;
+    }
+
+    public HttpThread(String url, EHttpManagerValidMethod httpMethod, Handler handler, EHttpThreadReason reason,
+                      String sport) {
+        this.url = url;
+        this.httpMethod = httpMethod;
+        this.handler = handler;
+        this.reason = reason;
+        this.sport = sport;
     }
 
     public HttpThread(String url, EHttpManagerValidMethod httpMethod, Handler handler, EHttpThreadReason reason,
@@ -42,30 +52,68 @@ public class HttpThread extends Thread {
 
     @Override
     public void run() {
+        // FIXME: Ver de meter esta variable dentro de los if de abajo
+        // Si llamo el thread de sport, no tiene sentido declarar un array de Athletes
+        List<AthleteModel> athleteList = new ArrayList<>();
+        List<SportModel> sportList = new ArrayList<>();
+
         HttpManager hm = new HttpManager();
-        byte[] res;
 
         Message msg = new Message();
 
+        byte[] res = hm.request(this);
+
+        if (res == null) {
+            // Handle Internet connection errors
+            msg.obj = athleteList;
+            handler.sendMessage(msg);
+            return;
+        }
+
         switch (reason) {
-            case POPULATE_MODEL:
+            case POPULATE_MODEL_ATHLETE:
                 try {
-                    //res = hm.request(url, httpMethod, cacheOnDisk);
-                    res = hm.request(this);
-                    List<Athlete> athleteList = AthleteApiHelper.generateListAthleteFromJson(new JSONArray(new String(res)));
+                    JSONArray athletesJson = new JSONArray(new String(res));
+                    for (int i = 0; i < athletesJson.length(); i++) {
+                        athleteList.add(ApiHelperAthlete.getAthleteFromJson(athletesJson.getJSONObject(i)));
+                    }
                     msg.obj = athleteList;
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 break;
-            case POPULATE_PHOTO:
-                //res = hm.request(url, httpMethod, cacheOnDisk, context);
-                res = hm.request(this);
+            case POPULATE_MODEL_SPORT:
+                try {
+                    JSONArray sportJson = new JSONArray(new String(res));
+                    for (int i = 0; i < sportJson.length(); i++) {
+                        sportList.add(ApiHelperSport.getSportFromJson(sportJson.getJSONObject(i)));
+                    }
+                    msg.obj = sportList;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case POPULATE_ATHLETE_MODEL_BY_SPORT:
+                try {
+                    JSONArray athletesJson = new JSONArray(new String(res));
+                    for (int i = 0; i < athletesJson.length(); i++) {
+                        AthleteModel athlete = ApiHelperAthlete.getAthleteFromJson(athletesJson.getJSONObject(i));
+                        if (!athlete.getSport().toLowerCase().contentEquals(sport.toLowerCase())) {
+                            continue;
+                        }
+                        athleteList.add(athlete);
+                    }
+                    msg.obj = athleteList;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case POPULATE_IMAGE:
                 msg.arg1 = position;
                 msg.obj = res;
                 break;
         }
 
-        this.handler.sendMessage(msg);
+        handler.sendMessage(msg);
     }
 }

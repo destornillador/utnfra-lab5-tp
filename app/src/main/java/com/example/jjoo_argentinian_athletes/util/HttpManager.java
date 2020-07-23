@@ -1,31 +1,17 @@
 package com.example.jjoo_argentinian_athletes.util;
 
 import android.content.Context;
-import android.net.Uri;
-import android.os.Environment;
-import android.util.Log;
 
-import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.UUID;
 
 public class HttpManager {
 
-    /**
-     * Return a Byte Array
-     * @param urlString
-     * @param httpMethod
-     * @return
-     */
     protected byte[] request(HttpThread httpThread){
 
         try {
@@ -51,9 +37,8 @@ public class HttpManager {
             // but in binary mode
             if (httpThread.cacheOnDisk) {
 
-                String fileName = httpThread.url.substring(httpThread.url.lastIndexOf("/") + 1, httpThread.url.length());
+                String fileName = httpThread.url.substring(httpThread.url.lastIndexOf("/") + 1);
                 String filePath = httpThread.context.getFilesDir().getAbsolutePath() + "/" + fileName;
-                Log.d("test", filePath);
 
                 FileOutputStream fos = httpThread.context.openFileOutput(fileName, Context.MODE_PRIVATE);
 

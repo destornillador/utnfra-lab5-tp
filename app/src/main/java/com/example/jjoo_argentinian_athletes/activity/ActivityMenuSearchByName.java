@@ -11,13 +11,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.TextView;
 
 import com.example.jjoo_argentinian_athletes.R;
 import com.example.jjoo_argentinian_athletes.adapter.AthletePreviewAdapter;
-import com.example.jjoo_argentinian_athletes.model.Athlete;
+import com.example.jjoo_argentinian_athletes.model.AthleteModel;
 import com.example.jjoo_argentinian_athletes.util.Const;
 import com.example.jjoo_argentinian_athletes.util.EHttpManagerValidMethod;
 import com.example.jjoo_argentinian_athletes.util.EHttpThreadReason;
@@ -26,17 +28,14 @@ import com.example.jjoo_argentinian_athletes.util.IRecycleViewClickItem;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 public class ActivityMenuSearchByName extends AppCompatActivity implements
-        SearchView.OnQueryTextListener, IRecycleViewClickItem, Handler.Callback {
+        IRecycleViewClickItem, Handler.Callback {
 
     private RecyclerView rvAthleteList;
     private AthletePreviewAdapter athletePreviewAdapter;
-    private List<Athlete> athleteList;
+    private List<AthleteModel> athleteList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,19 +61,35 @@ public class ActivityMenuSearchByName extends AppCompatActivity implements
         Intent intent_activity_menu_search_by_name = getIntent();
         Bundle intent_extras = intent_activity_menu_search_by_name.getExtras();
 
-        // Populate with all athletes or from a small set, given from Intent Extra
         if (intent_extras != null) {
+            String sport = intent_extras.getString("SPORT");
+
+            // Set Toolbar Name
+            toolbar.setTitle(sport.toUpperCase().concat(" | ").concat(this.getResources().getString(R.string.title_activity_athlete)));
+
             // Populate a small set
-            Log.d("extras", "No hay extras");
+            HttpThread threadGetAthletesBySport = new HttpThread(
+                    Const.API_ATHLETES_URL,
+                    EHttpManagerValidMethod.GET,
+                    new Handler(this),
+                    EHttpThreadReason.POPULATE_ATHLETE_MODEL_BY_SPORT,
+                    sport);
+            threadGetAthletesBySport.start();
         } else {
+            // Set Toolbar name
+            toolbar.setTitle(this.getResources().getString(R.string.title_activity_athlete));
+
             // Populate all athletes
-            HttpThread threadGetAllAthletes = new HttpThread(Const.API_ATHLETES_URL, EHttpManagerValidMethod.GET,
-                    new Handler(this), EHttpThreadReason.POPULATE_MODEL);
+            HttpThread threadGetAllAthletes = new HttpThread(
+                    Const.API_ATHLETES_URL,
+                    EHttpManagerValidMethod.GET,
+                    new Handler(this),
+                    EHttpThreadReason.POPULATE_MODEL_ATHLETE);
             threadGetAllAthletes.start();
         }
 
         athleteList = new ArrayList<>();
-        athletePreviewAdapter = new AthletePreviewAdapter(this,this, athleteList);
+        athletePreviewAdapter = new AthletePreviewAdapter(this, this, athleteList);
         rvAthleteList.setAdapter(athletePreviewAdapter);
     }
 
@@ -87,7 +102,19 @@ public class ActivityMenuSearchByName extends AppCompatActivity implements
         // Search View
         MenuItem searchItem = menu.findItem(R.id.activity_menu_search_by_name_item_search);
         SearchView searchView = (SearchView) searchItem.getActionView();
-        searchView.setOnQueryTextListener(this);
+        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                athletePreviewAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
 
         return true;
     }
@@ -103,27 +130,21 @@ public class ActivityMenuSearchByName extends AppCompatActivity implements
     }
 
     @Override
-    public boolean onQueryTextSubmit(String s) {
-        // TODO: Update the RecyclerView every time that a letter is entered
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String s) {
-        // TODO: Update the RecyclerView every time that a letter is entered
-        return false;
-    }
-
-    @Override
-    public void onAthleteClick(int position) {
+    public void onItemClick(int position) {
     }
 
     // Populate RecyclerView Thread
-
     @Override
     public boolean handleMessage(@NonNull Message msg) {
-        athleteList.addAll((ArrayList<Athlete>) msg.obj);
+        athleteList.addAll((ArrayList<AthleteModel>) msg.obj);
         // TODO: Probably the sort stuff  should be in another file
+        // It is not necessary to call the Adapter because there is not any item
+        if (athleteList.isEmpty()) {
+            // Enable no data available message
+            TextView tv = findViewById(R.id.rv_menu_search_by_name_empty_tv);
+            tv.setVisibility(View.VISIBLE);
+            return false;
+        }
         Collections.sort(athleteList);
         athletePreviewAdapter.notifyDataSetChanged();
         return false;

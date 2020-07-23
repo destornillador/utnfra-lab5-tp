@@ -8,6 +8,8 @@ import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,21 +18,26 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.jjoo_argentinian_athletes.R;
 import com.example.jjoo_argentinian_athletes.activity.ActivityMenuSearchByName;
-import com.example.jjoo_argentinian_athletes.model.Sport;
+import com.example.jjoo_argentinian_athletes.model.SportModel;
+import com.example.jjoo_argentinian_athletes.util.EHttpManagerValidMethod;
+import com.example.jjoo_argentinian_athletes.util.EHttpThreadReason;
+import com.example.jjoo_argentinian_athletes.util.HttpThread;
 import com.example.jjoo_argentinian_athletes.util.IRecycleViewClickItem;
-import com.google.gson.Gson;
 
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class SportCategoryAdapter extends RecyclerView.Adapter<SportCategoryAdapter.SportCategoryViewHolder>
-        implements Handler.Callback{
+        implements Handler.Callback, Filterable {
 
-    private List<Sport> sportList;
+    private List<SportModel> sportList;
+    private List<SportModel> sportListFull;
     private Context context;
     private IRecycleViewClickItem listener;
 
-    public SportCategoryAdapter(Context context, IRecycleViewClickItem listener, List<Sport> sportList) {
+    public SportCategoryAdapter(Context context, IRecycleViewClickItem listener, List<SportModel> sportList) {
         this.context = context;
         this.listener = listener;
         this.sportList = sportList;
@@ -44,21 +51,25 @@ public class SportCategoryAdapter extends RecyclerView.Adapter<SportCategoryAdap
 
     @Override
     public void onBindViewHolder(SportCategoryViewHolder holder, int position) {
-        Sport sport = sportList.get(position);
+        SportModel sport = sportList.get(position);
 
         holder.itemSportName.setText(sport.getName());
         holder.setPosition(position);
         holder.setContext(context);
         holder.setSport(sport);
 
-        if (sport.getLogoBinary() != null) {
-            holder.itemSportLogo.setImageBitmap(BitmapFactory.decodeByteArray(sport.getLogoBinary(),
-                    0, sport.getLogoBinary().length));
-        } /*else {
-            HttpThread httpThread = new HttpThread(athlete.getProfilePhotoURL(), "GET", new Handler(this),
-                    EHttpThreadReason.POPULATE_PHOTO, position);
-            httpThread.start();
-        }*/
+        if (sport.getLogoLocalFilePath() != null) {
+            holder.itemSportLogo.setImageBitmap(BitmapFactory.decodeFile(sport.getLogoLocalFilePath()));
+        } else {
+            HttpThread threadGetLogo = new HttpThread(sport.getLogoUrl(),
+                    EHttpManagerValidMethod.GET ,
+                    new Handler(this),
+                    EHttpThreadReason.POPULATE_IMAGE,
+                    position,
+                    true,
+                    context);
+            threadGetLogo.start();
+        }
     }
 
     @Override
@@ -68,12 +79,55 @@ public class SportCategoryAdapter extends RecyclerView.Adapter<SportCategoryAdap
 
     @Override
     public boolean handleMessage(@NonNull Message msg) {
-        byte[] logoBinary = (byte[]) msg.obj;
-        sportList.get(msg.arg1).setLogoBinary(logoBinary);
+        String s = new String((byte[]) msg.obj, StandardCharsets.UTF_8);
+        sportList.get(msg.arg1).setLogoLocalFilePath(s);
         this.notifyItemChanged(msg.arg1);
 
         return false;
     }
+
+    // Regenerate recyclerview based on the SearchView value
+    @Override
+    public Filter getFilter() {
+        return sportFilter;
+    }
+
+    private Filter sportFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<SportModel> sportListFiltered = new ArrayList<>();
+
+            // Ugly workaround to have an updated copy of all Athletes
+            if (sportListFull == null) {
+                sportListFull = new ArrayList<>(sportList);
+            }
+
+            if (constraint == null || constraint.length() == 0) {
+                sportListFiltered.addAll(sportListFull);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for (SportModel sport : sportListFull) {
+                    if (sport.getName().toLowerCase().contains(filterPattern)) {
+                        sportListFiltered.add(sport);
+                    }
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = sportListFiltered;
+
+            return results;
+        }
+
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            sportList.clear();
+            sportList.addAll((List) results.values);
+            notifyDataSetChanged();
+        }
+    };
 
     static class SportCategoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView itemSportName;
@@ -81,7 +135,7 @@ public class SportCategoryAdapter extends RecyclerView.Adapter<SportCategoryAdap
         private IRecycleViewClickItem listener;
         private Context context;
         private int position;
-        private Sport sport;
+        private SportModel sport;
 
         SportCategoryViewHolder(View itemView, IRecycleViewClickItem listener) {
             super(itemView);
@@ -99,22 +153,17 @@ public class SportCategoryAdapter extends RecyclerView.Adapter<SportCategoryAdap
             this.context = context;
         }
 
-        protected void setSport(Sport sport) {
+        protected void setSport(SportModel sport) {
             this.sport = sport;
         }
 
         @Override
         public void onClick(View v) {
-            listener.onAthleteClick(position);
+            listener.onItemClick(position);
 
-
-            //TODO: Aca habria que meter el logo:sport como Toolbar
-            //Gson gson = new Gson();
             Intent intentActivitySearchByName = new Intent(context, ActivityMenuSearchByName.class);
-            // TODO: Meter logica para obtener una lista de Athletes que solo practicen el Sport seleccionado
-            intentActivitySearchByName.putExtra("ITEM_ATHLETE", "hola");
+            intentActivitySearchByName.putExtra("SPORT", sport.getName());
             context.startActivity(intentActivitySearchByName);
-
         }
     }
 }

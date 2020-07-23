@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Atletas del COA</string>
+    <string name="title_activity_menu_by_sport">Deportes</string>
+    <string name="search_by_athlete">Buscar por Nombre</string>
+    <string name="search_by_sport">Buscar por Deporte</string>
+    <string name="athlete_fullname">Nombre Apellido</string>
+    <string name="title_activity_athlete">Atletas</string>
+    <string name="menu_search_by_name_item_search">Buscar Atleta</string>
+    <string name="sport_name">Nombre del Deporte</string>
+    <string name="menu_search_by_sport_item_search">Buscar por Deporte</string>
+    <string name="athlete_sport_label">DEPORTE</string>
+    <string name="athlete_sport_events_label">EVENTOS</string>
+    <string name="athlete_olympic_games_attent_label">PARTICIPACIONES</string>
+    <string name="rv_menu_search_by_name_empty_tv">No hay ningún atleta</string>
+</resources>

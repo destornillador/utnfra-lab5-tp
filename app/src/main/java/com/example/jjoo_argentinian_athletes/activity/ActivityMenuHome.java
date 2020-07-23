@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 
 import com.example.jjoo_argentinian_athletes.R;
@@ -14,6 +15,7 @@ public class ActivityMenuHome extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_menu_home);
 
         // Go to activity_search_by_athlete
@@ -35,12 +37,6 @@ public class ActivityMenuHome extends AppCompatActivity {
                 ActivityMenuHome.this.startActivity(intent_activity_search_by_sport);
             }
         });
-
-        /*
-        pmList = new ArrayList<>();
-        pAdapter = new PersonAdapter(this, pmList);
-        rvAthleteList.setAdapter(this.pAdapter);
-        */
 
         /* PersonaModel personaModel = new PersonaModel();
         PersonaController personaController = new PersonaController(personaModel);

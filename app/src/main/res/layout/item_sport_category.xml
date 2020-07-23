@@ -6,20 +6,24 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/item_sport_category_logo"
         android:layout_width="50dp"
         android:layout_height="60dp"
         android:layout_gravity="center_horizontal"
-        app:srcCompat="@drawable/athlete_profile_logo" />
+        android:src="@drawable/athlete_profile_logo"
+        app:civ_border_width="1dp"
+        app:civ_border_color="#FF000000"/>
 
     <TextView
         android:id="@+id/item_sport_category_name"
         style="@style/TextAppearance.AppCompat.Large"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fontFamily="@font/open_sans_semibold"
+        android:gravity="center_vertical"
         android:paddingLeft="@dimen/left_padding"
         android:paddingBottom="20dp"
-        android:gravity="center_vertical"
         android:text="@string/sport_name" />
 </LinearLayout>

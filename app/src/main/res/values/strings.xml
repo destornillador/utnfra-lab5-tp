@@ -1,12 +1,15 @@
 <resources>
     <string name="app_name">COA Athletes</string>
-    <string name="title_activity_menu_by_sport">activity_menu_by_sport</string>
-    <string name="search_by_athlete">Search by name</string>
-    <string name="search_by_sport">Search by sport</string>
-    <string name="noc_logo_placed_in_the_menu_home">Noc logo placed in the menu_home</string>
+    <string name="title_activity_menu_by_sport">Sports</string>
+    <string name="search_by_athlete">Search by Name</string>
+    <string name="search_by_sport">Search by Sport</string>
     <string name="athlete_fullname">Name Surname</string>
-    <string name="title_activity_athlete">athlete</string>
+    <string name="title_activity_athlete">Athletes</string>
     <string name="menu_search_by_name_item_search">Search Athlete</string>
     <string name="sport_name">Sport Name</string>
-    <string name="menu_search_by_sport_item_search">Menu Search by Sport</string>
+    <string name="menu_search_by_sport_item_search">Search by Sport</string>
+    <string name="athlete_sport_label">SPORT</string>
+    <string name="athlete_sport_events_label">EVENTS</string>
+    <string name="athlete_olympic_games_attent_label">ATTENTS</string>
+    <string name="rv_menu_search_by_name_empty_tv">There is not any athlete</string>
 </resources>

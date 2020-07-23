@@ -11,4 +11,14 @@ xmlns:android="http://schemas.android.com/apk/res/android"
     android:scrollbars="vertical">
 </androidx.recyclerview.widget.RecyclerView>
 
+<TextView
+    android:id="@+id/rv_menu_search_by_name_empty_tv"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="gone"
+    style="@style/TextAppearance.AppCompat.Large"
+    android:fontFamily="@font/open_sans_semibold"
+
+    android:text="@string/rv_menu_search_by_name_empty_tv" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,22 +8,47 @@
     android:orientation="vertical"
     android:layout_gravity="center_horizontal">
 
-    <ImageView
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/athlete_profile_photo"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/top_padding"
-        android:layout_marginBottom="@dimen/bottom_padding"
-        android:src="@drawable/athlete_profile_logo"/>
+        android:layout_marginBottom="5dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/athlete_profile_logo"
+        app:civ_border_width="1dp"
+        app:civ_border_color="#FF000000"/>
 
     <TextView
         android:id="@+id/athlete_fullname"
+        style="@style/TextAppearance.AppCompat.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        style="@style/TextAppearance.AppCompat.Large"
-        android:text="@string/athlete_fullname"/>
+        android:layout_marginBottom="5dp"
+        android:fontFamily="@font/open_sans_semibold"
+        android:text="@string/athlete_fullname" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <ImageView
+            android:id="@+id/athlete_social_network_instagram"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:srcCompat="@drawable/instagram_logo" />
+
+        <ImageView
+            android:id="@+id/athlete_social_network_twitter"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:srcCompat="@drawable/twitter_logo" />
+
+    </LinearLayout>
 
     <TableLayout
         android:layout_width="match_parent"
@@ -34,26 +59,29 @@
         android:showDividers="middle">
 
         <TableRow
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:divider="@color/colorPrimary"
             android:paddingLeft="@dimen/left_padding"
             android:paddingTop="@dimen/top_padding"
             android:paddingRight="@dimen/right_padding"
             android:paddingBottom="@dimen/bottom_padding"
             android:showDividers="middle">
 
-            <ImageView
-                android:id="@+id/tr_athlete_sport_icon"
+            <TextView
+                android:id="@+id/tr_athlete_sport_label"
+                style="@style/TextAppearance.AppCompat.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@android:drawable/btn_star" />
+                android:fontFamily="@font/open_sans_semibold"
+                android:text="@string/athlete_sport_label" />
 
             <TextView
                 android:id="@+id/tr_athlete_sport_tv"
-                android:layout_width="wrap_content"
+                style="@style/TextAppearance.AppCompat.Subhead"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:fontFamily="@font/open_sans"
+                android:text="SPORT VALUE" />
 
         </TableRow>
 
@@ -65,17 +93,21 @@
             android:paddingRight="@dimen/right_padding"
             android:paddingBottom="@dimen/bottom_padding">
 
-            <ImageView
-                android:id="@+id/tr_athlete_sport_events_icon"
+            <TextView
+                android:id="@+id/tr_athlete_sport_events_label"
+                style="@style/TextAppearance.AppCompat.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@android:drawable/btn_star" />
+                android:fontFamily="@font/open_sans_semibold"
+                android:text="@string/athlete_sport_events_label" />
 
             <TextView
                 android:id="@+id/tr_athlete_sport_events_tv"
+                style="@style/TextAppearance.AppCompat.Subhead"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:fontFamily="@font/open_sans"
+                android:text="EVENTS VALUE" />
 
         </TableRow>
 
@@ -87,17 +119,21 @@
             android:paddingRight="@dimen/right_padding"
             android:paddingBottom="@dimen/bottom_padding">
 
-            <ImageView
-                android:id="@+id/tr_athlete_olympic_games_attent_icon"
+            <TextView
+                android:id="@+id/tr_athlete_olympic_games_attent_label"
+                style="@style/TextAppearance.AppCompat.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@android:drawable/btn_star" />
+                android:fontFamily="@font/open_sans_semibold"
+                android:text="@string/athlete_olympic_games_attent_label" />
 
             <TextView
                 android:id="@+id/tr_athlete_olympic_games_attent_tv"
+                style="@style/TextAppearance.AppCompat.Subhead"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:fontFamily="@font/open_sans"
+                android:text="ATTENT VALUE" />
 
         </TableRow>
     </TableLayout>

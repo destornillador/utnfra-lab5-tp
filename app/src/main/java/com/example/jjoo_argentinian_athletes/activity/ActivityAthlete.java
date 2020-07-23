@@ -2,10 +2,10 @@ package com.example.jjoo_argentinian_athletes.activity;
 
 import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,8 +13,9 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.jjoo_argentinian_athletes.R;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonParser;
+import com.example.jjoo_argentinian_athletes.controller.AthleteController;
+import com.example.jjoo_argentinian_athletes.model.AthleteModel;
+import com.example.jjoo_argentinian_athletes.util.ApiHelperAthlete;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,23 +34,59 @@ public class ActivityAthlete extends AppCompatActivity {
         // Populate Activity
         Intent intent_activity_athlete = getIntent();
         Bundle intent_extras = intent_activity_athlete.getExtras();
-        Log.d("test",intent_extras.getString("ITEM_ATHLETE"));
         try {
-            JSONObject bundle_athlete = new JSONObject(intent_extras.getString("ITEM_ATHLETE"));
+            final AthleteModel athlete = ApiHelperAthlete.getAthleteFromJson(new JSONObject(intent_extras.getString("ITEM_ATHLETE")));
+
+            // Set Name to Toolbar
+            toolbar.setTitle(this.getResources().getString(R.string.title_activity_athlete).toUpperCase().concat(" | ").concat(athlete.getFullName()));
+
+
+
             // FIXME: Esto debería ir en la Vista (MVC)
             ImageView athleteProfilePhoto = findViewById(R.id.athlete_profile_photo);
+            ImageView atheteSocialNetworkInstagram = findViewById(R.id.athlete_social_network_instagram);
+            ImageView athleteSocialNetworkTwitter = findViewById(R.id.athlete_social_network_twitter);
             TextView athleteFullName =  findViewById(R.id.athlete_fullname);
             TextView athleteSport = findViewById(R.id.tr_athlete_sport_tv);
             TextView athleteSportEvents = findViewById(R.id.tr_athlete_sport_events_tv);
             TextView athleteOlympicGamesAttend = findViewById(R.id.tr_athlete_olympic_games_attent_tv);
 
-            athleteProfilePhoto.setImageBitmap(BitmapFactory.decodeFile(bundle_athlete.getString("profilePhotoLocalFilePath")));
-            athleteFullName.setText(bundle_athlete.getString("fullName"));
-            athleteSport.setText(bundle_athlete.getString("sport"));
+            // TODO: Probably this could be simplified in reusable code
+            if ( ! athlete.hasThisSocialNetwork("instagram")) {
+                atheteSocialNetworkInstagram.setVisibility(View.GONE);
+            }
 
-            // FIXME: Collection objects need to be iterated
-            athleteSportEvents.setText(bundle_athlete.getString("sportEvents"));
-            athleteOlympicGamesAttend.setText(bundle_athlete.getString("olympicGamesAttend"));
+            if ( ! athlete.hasThisSocialNetwork("twitter")) {
+                athleteSocialNetworkTwitter.setVisibility((View.GONE));
+            }
+            atheteSocialNetworkInstagram.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setAction(Intent.ACTION_VIEW);
+                    intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                    intent.setData(Uri.parse(athlete.getSocialNetworks().get("instagram")));
+                    startActivity(intent);
+                }
+            });
+
+            athleteSocialNetworkTwitter.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setAction(Intent.ACTION_VIEW);
+                    intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                    intent.setData(Uri.parse(athlete.getSocialNetworks().get("twitter")));
+                    startActivity(intent);
+                }
+            });
+
+            athleteProfilePhoto.setImageBitmap(BitmapFactory.decodeFile(athlete.getProfilePhotoLocalFilePath()));
+            athleteFullName.setText(athlete.getFullName());
+            athleteSport.setText(athlete.getSport());
+            athleteSportEvents.setText(athlete.getSportEventsToString());
+            athleteOlympicGamesAttend.setText(athlete.getOlympicGamesAttendToString());
+
 
         } catch (JSONException e) {
             e.printStackTrace();

@@ -1,5 +1,6 @@
 package com.example.jjoo_argentinian_athletes.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -7,23 +8,31 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.EditorInfo;
 
 import com.example.jjoo_argentinian_athletes.R;
 import com.example.jjoo_argentinian_athletes.adapter.SportCategoryAdapter;
-import com.example.jjoo_argentinian_athletes.model.Sport;
+import com.example.jjoo_argentinian_athletes.model.SportModel;
+import com.example.jjoo_argentinian_athletes.util.Const;
+import com.example.jjoo_argentinian_athletes.util.EHttpManagerValidMethod;
+import com.example.jjoo_argentinian_athletes.util.EHttpThreadReason;
+import com.example.jjoo_argentinian_athletes.util.HttpThread;
 import com.example.jjoo_argentinian_athletes.util.IRecycleViewClickItem;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ActivityMenuSearchBySport extends AppCompatActivity implements
-        SearchView.OnQueryTextListener, IRecycleViewClickItem {
+        IRecycleViewClickItem, Handler.Callback {
 
     private RecyclerView rvSportList;
     private SportCategoryAdapter sportCategoryAdapter;
-    private List<Sport> sportList;
+    private List<SportModel> sportList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,34 +50,22 @@ public class ActivityMenuSearchBySport extends AppCompatActivity implements
         rvSportList.setHasFixedSize(true);
         rvSportList.setLayoutManager(new LinearLayoutManager(this));
 
-        // FIXME: This is only for testing purpose
+        // Set Toolbar name
+        toolbar.setTitle(this.getResources().getString(R.string.title_activity_menu_by_sport));
+        // Get sports from API
+        HttpThread threadGetAllSports = new HttpThread(
+                Const.API_SPORTS_URL,
+                EHttpManagerValidMethod.GET,
+                new Handler(this),
+                EHttpThreadReason.POPULATE_MODEL_SPORT);
+        threadGetAllSports.start();
 
         sportList = new ArrayList<>();
-        sportList.add(new Sport("Swimming", "https://google.com"));
-        sportList.add(new Sport("Hockey", "https://google.com"));
-        sportList.add(new Sport("Canoe", "https://google.com"));
-
         sportCategoryAdapter = new SportCategoryAdapter(this,this, sportList);
         rvSportList.setAdapter(sportCategoryAdapter);
-
-
-
     }
 
     // Toolbar
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_menu_search_by_sport, menu);
-
-        // Search View
-        MenuItem searchItem = menu.findItem(R.id.activity_menu_search_by_sport_item_search);
-        SearchView searchView = (SearchView) searchItem.getActionView();
-        searchView.setOnQueryTextListener(this);
-
-        return true;
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
@@ -80,18 +77,40 @@ public class ActivityMenuSearchBySport extends AppCompatActivity implements
     }
 
     @Override
-    public boolean onQueryTextSubmit(String s) {
-        // TODO: Update the RecyclerView every time that a letter is entered
-        return false;
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_menu_search_by_sport, menu);
+
+        // Search View
+        MenuItem searchItem = menu.findItem(R.id.activity_menu_search_by_sport_item_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                sportCategoryAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
+        return true;
     }
 
     @Override
-    public boolean onQueryTextChange(String s) {
-        // TODO: Update the RecyclerView every time that a letter is entered
-        return false;
+    public void onItemClick(int position) {
     }
 
+    // Populate RecyclerView Thread
     @Override
-    public void onAthleteClick(int position) {
+    public boolean handleMessage(@NonNull Message msg) {
+        sportList.addAll((ArrayList<SportModel>) msg.obj);
+        // TODO: Probably the sort stuff  should be in another file
+        Collections.sort(sportList);
+        sportCategoryAdapter.notifyDataSetChanged();
+        return false;
     }
 }
