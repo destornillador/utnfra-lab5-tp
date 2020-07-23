@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Atletas del COA</string>
+    <string name="app_name">COA Tokio 2020</string>
     <string name="title_activity_menu_by_sport">Deportes</string>
     <string name="search_by_athlete">Buscar por Nombre</string>
     <string name="search_by_sport">Buscar por Deporte</string>

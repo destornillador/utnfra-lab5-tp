@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class AthleteModel implements Comparable{
+public class AthleteModel implements Comparable {
     String fullName;
     String profilePhotoUrl;
     String profilePhotoLocalFilePath = null;
@@ -15,7 +15,7 @@ public class AthleteModel implements Comparable{
     List<String> olympicGamesAttend;
 
     public static AthleteModel EMPTY = new AthleteModel(
-            "EMPTY","EMPTY", Collections.<String, String>emptyMap(),"EMPTY",
+            "EMPTY", "EMPTY", Collections.<String, String>emptyMap(), "EMPTY",
             Collections.<String>emptyList(), Collections.<String>emptyList());
 
     public AthleteModel(String fullName, String profilePhotoUrl, Map<String, String> socialNetworks,
@@ -86,7 +86,7 @@ public class AthleteModel implements Comparable{
 
     public String getSportEventsToString() {
         StringBuilder str = new StringBuilder();
-        for (String s: sportEvents) {
+        for (String s : sportEvents) {
             str.append(s).append(System.getProperty("line.separator"));
         }
         return str.toString();
@@ -102,7 +102,7 @@ public class AthleteModel implements Comparable{
 
     public String getOlympicGamesAttendToString() {
         StringBuilder str = new StringBuilder();
-        for (String s: olympicGamesAttend) {
+        for (String s : olympicGamesAttend) {
             str.append(s).append(System.getProperty("line.separator"));
         }
         return str.toString();

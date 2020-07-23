@@ -1,18 +1,18 @@
 package com.example.jjoo_argentinian_athletes.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.EditorInfo;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.jjoo_argentinian_athletes.R;
 import com.example.jjoo_argentinian_athletes.adapter.SportCategoryAdapter;
@@ -61,7 +61,7 @@ public class ActivityMenuSearchBySport extends AppCompatActivity implements
         threadGetAllSports.start();
 
         sportList = new ArrayList<>();
-        sportCategoryAdapter = new SportCategoryAdapter(this,this, sportList);
+        sportCategoryAdapter = new SportCategoryAdapter(this, this, sportList);
         rvSportList.setAdapter(sportCategoryAdapter);
     }
 
@@ -108,7 +108,6 @@ public class ActivityMenuSearchBySport extends AppCompatActivity implements
     @Override
     public boolean handleMessage(@NonNull Message msg) {
         sportList.addAll((ArrayList<SportModel>) msg.obj);
-        // TODO: Probably the sort stuff  should be in another file
         Collections.sort(sportList);
         sportCategoryAdapter.notifyDataSetChanged();
         return false;

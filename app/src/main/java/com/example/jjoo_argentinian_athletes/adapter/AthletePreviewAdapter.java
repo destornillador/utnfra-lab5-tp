@@ -19,8 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.jjoo_argentinian_athletes.R;
 import com.example.jjoo_argentinian_athletes.activity.ActivityAthlete;
 import com.example.jjoo_argentinian_athletes.model.AthleteModel;
-import com.example.jjoo_argentinian_athletes.util.EHttpThreadReason;
 import com.example.jjoo_argentinian_athletes.util.EHttpManagerValidMethod;
+import com.example.jjoo_argentinian_athletes.util.EHttpThreadReason;
 import com.example.jjoo_argentinian_athletes.util.HttpThread;
 import com.example.jjoo_argentinian_athletes.util.IRecycleViewClickItem;
 import com.google.gson.Gson;
@@ -63,7 +63,7 @@ public class AthletePreviewAdapter extends RecyclerView.Adapter<AthletePreviewAd
             holder.itemAthleteProfilePhoto.setImageBitmap(BitmapFactory.decodeFile(athlete.getProfilePhotoLocalFilePath()));
         } else {
             HttpThread threadGetProfilePhoto = new HttpThread(athlete.getProfilePhotoUrl(),
-                    EHttpManagerValidMethod.GET ,
+                    EHttpManagerValidMethod.GET,
                     new Handler(this),
                     EHttpThreadReason.POPULATE_IMAGE,
                     position,
@@ -130,7 +130,6 @@ public class AthletePreviewAdapter extends RecyclerView.Adapter<AthletePreviewAd
     };
 
 
-
     static class AthletePreviewViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView itemAthleteFullname;
         private ImageView itemAthleteProfilePhoto;
@@ -141,7 +140,7 @@ public class AthletePreviewAdapter extends RecyclerView.Adapter<AthletePreviewAd
 
         AthletePreviewViewHolder(View itemView, IRecycleViewClickItem listener) {
             super(itemView);
-            this.itemAthleteFullname =  itemView.findViewById(R.id.item_athlete_preview_fullname);
+            this.itemAthleteFullname = itemView.findViewById(R.id.item_athlete_preview_fullname);
             this.itemAthleteProfilePhoto = itemView.findViewById(R.id.item_athlete_preview_profile_photo);
             this.listener = listener;
             itemView.setOnClickListener(this);
@@ -169,4 +168,4 @@ public class AthletePreviewAdapter extends RecyclerView.Adapter<AthletePreviewAd
             context.startActivity(intentActivityAthlete);
         }
     }
-    }
+}

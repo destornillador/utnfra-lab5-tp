@@ -52,8 +52,6 @@ public class HttpThread extends Thread {
 
     @Override
     public void run() {
-        // FIXME: Ver de meter esta variable dentro de los if de abajo
-        // Si llamo el thread de sport, no tiene sentido declarar un array de Athletes
         List<AthleteModel> athleteList = new ArrayList<>();
         List<SportModel> sportList = new ArrayList<>();
 

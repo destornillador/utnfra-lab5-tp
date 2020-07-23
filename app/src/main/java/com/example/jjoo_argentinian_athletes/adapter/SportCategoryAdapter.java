@@ -62,7 +62,7 @@ public class SportCategoryAdapter extends RecyclerView.Adapter<SportCategoryAdap
             holder.itemSportLogo.setImageBitmap(BitmapFactory.decodeFile(sport.getLogoLocalFilePath()));
         } else {
             HttpThread threadGetLogo = new HttpThread(sport.getLogoUrl(),
-                    EHttpManagerValidMethod.GET ,
+                    EHttpManagerValidMethod.GET,
                     new Handler(this),
                     EHttpThreadReason.POPULATE_IMAGE,
                     position,
@@ -139,7 +139,7 @@ public class SportCategoryAdapter extends RecyclerView.Adapter<SportCategoryAdap
 
         SportCategoryViewHolder(View itemView, IRecycleViewClickItem listener) {
             super(itemView);
-            this.itemSportName =  itemView.findViewById(R.id.item_sport_category_name);
+            this.itemSportName = itemView.findViewById(R.id.item_sport_category_name);
             this.itemSportLogo = itemView.findViewById(R.id.item_sport_category_logo);
             this.listener = listener;
             itemView.setOnClickListener(this);

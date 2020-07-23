@@ -12,7 +12,7 @@ import java.net.URL;
 
 public class HttpManager {
 
-    protected byte[] request(HttpThread httpThread){
+    protected byte[] request(HttpThread httpThread) {
 
         try {
             // Establish HTTP connection
@@ -24,7 +24,7 @@ public class HttpManager {
                 huc.connect();
             }
 
-            if (huc.getResponseCode() != 200){
+            if (huc.getResponseCode() != 200) {
                 throw new IOException("The HTTP connection returned a value different to HTTP 200");
             }
 

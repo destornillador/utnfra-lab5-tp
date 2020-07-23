@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">COA Athletes</string>
+    <string name="app_name">COA Tokio 2020</string>
     <string name="title_activity_menu_by_sport">Sports</string>
     <string name="search_by_athlete">Search by Name</string>
     <string name="search_by_sport">Search by Sport</string>
